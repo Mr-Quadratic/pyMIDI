@@ -12,4 +12,6 @@ from pygame import mixer
 # Example: Ab1 A1 Bb1 B1 C1 Db1 D1 Eb1 E1 F1 Gb1 G1 Ab2 A2 etc...
 ###
 
-print("Hello World")
+pygame.mixer.init()
+sound = pygame.mixer.Sound('media/samples/UIO/C4.aiff')
+sound.play()
