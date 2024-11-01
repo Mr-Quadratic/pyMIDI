@@ -1,5 +1,5 @@
-COP1500 - Python Project Group 1
-pyMIDI
+## COP1500 - Python Project Group 1
+# "pyMIDI"
 
 # Pygame - Mixer
 - Please look into mixer, as it will be the best library we can currently use to play audio correctly in sync with keyboard inputs. Remember that the naming scheme of the audio files are by octave.
