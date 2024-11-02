@@ -15,14 +15,10 @@ while True:
 			sys.exit()
 		if event.type == pygame.KEYDOWN:
 			if event.key == pygame.K_a:
-				mixer.music.load('media/samples/UIO/A1.aiff')
-				mixer.music.play()
+				pygame.mixer.Channel(0).play(pygame.mixer.Sound('media/samples/UIO/A1.aiff'))
 			if event.key == pygame.K_s:
-				mixer.music.load('media/samples/UIO/A2.aiff')
-				mixer.music.play()
+				pygame.mixer.Channel(1).play(pygame.mixer.Sound('media/samples/UIO/A2.aiff'))
 			if event.key == pygame.K_d:
-				mixer.music.load('media/samples/UIO/A3.aiff')
-				mixer.music.play()
+				pygame.mixer.Channel(2).play(pygame.mixer.Sound('media/samples/UIO/A3.aiff'))
 			if event.key == pygame.K_f:
-				mixer.music.load('media/samples/UIO/A4.aiff')
-				mixer.music.play()
+				pygame.mixer.Channel(3).play(pygame.mixer.Sound('media/samples/UIO/A4.aiff'))
