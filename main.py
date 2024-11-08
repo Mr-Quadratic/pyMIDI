@@ -22,3 +22,4 @@ while True:
 				pygame.mixer.Channel(2).play(pygame.mixer.Sound('media/samples/UIO/A3.aiff'))
 			if event.key == pygame.K_f:
 				pygame.mixer.Channel(3).play(pygame.mixer.Sound('media/samples/UIO/A4.aiff'))
+print('a')
