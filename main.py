@@ -3,8 +3,9 @@ import sys
 import time
 
 from pygame import mixer
-pygame.mixer.init(frequency=44100, size=-16, channels=2, buffer=512)  #had trouble getting sound without these values
+pygame.mixer.init()  #had trouble getting sound without these values
 pygame.init()
+pygame.mixer.set_num_channels(32)
 
 display = pygame.display.set_mode((640, 480)) #Keyboard inputs won't register without a screen
 
@@ -88,8 +89,8 @@ while True:
             # Play sound based on current Caps Lock state
             if event.key in lower_octave_sounds:
                 if use_upper_octaves and event.key in upper_octave_sounds:
-                    pygame.mixer.Channel(0).play(upper_octave_sounds[event.key])
+                    pygame.mixer.Sound.play(upper_octave_sounds[event.key])
                     print(f"Playing upper octave sound for key: {pygame.key.name(event.key)}")   ###
                 else:
-                    pygame.mixer.Channel(0).play(lower_octave_sounds[event.key])
+                    pygame.mixer.Sound.play(lower_octave_sounds[event.key])
                     print(f"Playing lower octave sound for key: {pygame.key.name(event.key)}")   ###
