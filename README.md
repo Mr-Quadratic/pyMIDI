@@ -13,7 +13,7 @@
 ### asterSSH
 - Add transposition [This will take me 1.5 years]
 - Add LABS [This will take me 1.6 years]
-- Support GUI scaling [This will take me 4 years]
+- Support GUI scaling [This will not happen]
 
 # Pygame - Mixer
 - Please look into mixer, as it will be the best library we can currently use to play audio correctly in sync with keyboard inputs. Remember that the naming scheme of the audio files are by octave.
