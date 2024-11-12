@@ -3,6 +3,7 @@ import sys
 import time
 
 from pygame import mixer
+
 pygame.mixer.init()  #had trouble getting sound without these values
 pygame.init()
 pygame.mixer.set_num_channels(32)
@@ -72,9 +73,9 @@ while key_index < len(key_mapping):
     # Increment the key index manually
     key_index += 1
 
-
 print("Please only use keys to the right and below the TILDE key, and to the left and above the RIGHT-SHIFT key")
 # Main loop
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
