@@ -1,6 +1,20 @@
 ## COP1500 - Python Project Group 1
 # "pyMIDI"
 
+# Current Tasks
+### TJsnapdrag / asterSSH
+- Refactor code entirely
+- Convert to standardized layout
+- Add better octave system
+### Mr-Quadratic / asterSSH
+- GUI
+- Soundbanks
+- Synesthesia
+### asterSSH
+- Add transposition [This will take me 1.5 years]
+- Add LABS [This will take me 1.6 years]
+- Support GUI scaling [This will take me 4 years]
+
 # Pygame - Mixer
 - Please look into mixer, as it will be the best library we can currently use to play audio correctly in sync with keyboard inputs. Remember that the naming scheme of the audio files are by octave.
 - Therefore, A1 is lower pitched than A2, and F3 is higher pitched than B3.
