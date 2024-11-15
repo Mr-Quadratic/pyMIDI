@@ -64,15 +64,17 @@ while octave <= 5:
 		if pos == 1:
 			for key in flats_first:
 				init_flat_coord = 0
-				init_flat_coord = init_flat_coord + (37.5 * octave)
+				init_flat_coord = init_flat_coord + (37.5 + 50 * 7 * (octave-1))
+				print(init_flat_coord)
 				init_flat_coord = init_flat_coord + (50 * flats_first.index(key))
+				print(init_flat_coord)
 				key = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((init_flat_coord, 300), (25, 150)), text = f'{key}{octave}', manager=manager,object_id=ObjectID(class_id='@black_button'))
 		if pos == 2:
 			for key in flats_second:
-				init_flat_coord = 187.5
+				init_flat_coord = 0
+				init_flat_coord = init_flat_coord + (187.5 + 50 * 7 * (octave-1))
 				init_flat_coord = init_flat_coord + 50 * flats_second.index(key)
 				key = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((init_flat_coord, 300), (25, 150)), text = f'{key}{octave}', manager=manager,object_id=ObjectID(class_id='@black_button'))
-
 
 	octave += 1
 
