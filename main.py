@@ -31,12 +31,20 @@ key_mapping = [
     pygame.K_m
 ]
 
+octave1 = ["1", "!", "2", "@", "3", "4", "$", "5", "%", "6", "^", "7"]
+octave2 = ["8", "*", "9", "(", "0", "q", "Q", "w", "W", "e", "E", "r"]
+octave3 = ["t", "T", "y", "Y", "u", "i", "I", "o", "O", "p", "P", "a"]
+octave4 = ["s", "S", "d", "D", "f", "g", "G", "h", "H", "j", "J", "k"]
+octave5 = ["l", "L", "z", "Z", "x", "c", "C", "v", "V", "b", "B", "n"]
+# one leftover key lmao
+octave6 = "m"
+
 # Initialize 5 octaves (C3 to C7) in the octave_sounds dictionary
 octave_sounds = {}
-current_octave = 4  # Start at C4
+current_octave = 2  # Start at 2 (C2-C7)
 
-min_octave = 3  # Lowest octave (C3)
-max_octave = 7  # Highest octave (C7)
+min_octave = 1  # Lowest octave (C1-C6)
+max_octave = 3  # Highest octave (C3-C8)
 
 # Initialize 32 mixer channels
 num_channels = 32
@@ -62,6 +70,20 @@ for i, key in enumerate(key_mapping):
 active_sounds = {}
 shift_pressed = False
 
+def octaveHandler():
+    if event.unicode in octave1:
+        return current_octave
+    elif event.unicode in octave2:
+        return current_octave + 1
+    elif event.unicode in octave3:
+        return current_octave + 2
+    elif event.unicode in octave4:
+        return current_octave + 3
+    elif event.unicode in octave5:
+        return current_octave + 4
+    elif event.unicode in octave6:
+        return current_octave + 5
+
 # Main loop
 while True:
     for event in pygame.event.get():
@@ -79,6 +101,7 @@ while True:
                 sound = None
                 note_index = key_mapping.index(event.key) % 7  # Only use natural notes
                 note = notes[note_index]
+                note_octave = octaveHandler()
 
                 if shift_pressed:
                     # If Shift is pressed, check for sharp note and map to flat
@@ -86,19 +109,23 @@ while True:
                     if sharp_note in sharp_to_flat:
                         # Map sharp to flat (e.g., C# -> Db)
                         flat_note = sharp_to_flat.get(sharp_note)
-                        sound_file = f'media/samples/UIO/{flat_note}{current_octave}.aiff'
+                        sound_file = f'media/samples/UIO/{flat_note}{note_octave}.aiff'
                         try:
                             sound = pygame.mixer.Sound(sound_file)
-                            print(f"Playing sharp/flat sound: {flat_note}{current_octave}")
+                            print(f"Playing sharp/flat sound: {flat_note}{note_octave}")
                         except pygame.error as e:
+                            print(f"Failed to load {sound_file} - {e}")
+                        except OSError as e:
                             print(f"Failed to load {sound_file} - {e}")
                 else:
                     # No Shift, only play natural notes (e.g., C4, D4, E4, etc.)
-                    sound_file = f'media/samples/UIO/{note}{current_octave}.aiff'
+                    sound_file = f'media/samples/UIO/{note}{note_octave}.aiff'
                     try:
                         sound = pygame.mixer.Sound(sound_file)
-                        print(f"Playing natural note: {note}{current_octave}")
+                        print(f"Playing natural note: {note}{note_octave}")
                     except pygame.error as e:
+                        print(f"Failed to load {sound_file} - {e}")
+                    except OSError as e:
                         print(f"Failed to load {sound_file} - {e}")
 
                 # If a sound was successfully loaded, play it
