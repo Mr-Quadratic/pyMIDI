@@ -145,7 +145,7 @@ while True:
             # Stop the sound and fade out when the key is released
             if event.key in active_sounds:
                 channel = active_sounds.pop(event.key)
-                channel.fadeout(3000)
+                channel.fadeout(600)
 
         # Change octave using ',' and '.'
         if event.type == pygame.KEYDOWN:
