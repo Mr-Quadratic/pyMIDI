@@ -3,7 +3,7 @@ import sys
 
 from pygame import mixer
 
-pygame.mixer.init(frequency=44100, size=-16, channels=2, buffer=128)
+pygame.mixer.init()
 pygame.init()
 
 display = pygame.display.set_mode((640, 480))
@@ -145,7 +145,7 @@ while True:
             # Stop the sound and fade out when the key is released
             if event.key in active_sounds:
                 channel = active_sounds.pop(event.key)
-                channel.fadeout(600)
+                channel.fadeout(3000)
 
         # Change octave using ',' and '.'
         if event.type == pygame.KEYDOWN:
