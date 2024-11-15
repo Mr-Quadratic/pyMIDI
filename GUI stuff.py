@@ -12,34 +12,6 @@ background.fill(pygame.Color('#000000'))
 
 manager = pygame_gui.UIManager((1600, 600), theme_path = 'theme.json')
 
-#C = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((0, 300), (100, 300)),
-#                                            text='t',
-#                                            manager=manager)
-#D = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((100, 300), (100, 300)),
-#                                            text='y',
-#                                            manager=manager)
-#E = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((200, 300), (100, 300)),
-#                                            text='u',
-#                                            manager=manager)
-#F = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 300), (100, 300)),
-#                                            text='i',
-#                                            manager=manager)
-#G = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((400, 300), (100, 300)),
-#                                            text='o',
-#                                            manager=manager)
-#A = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((500, 300), (100, 300)),
-#                                            text='p',
-#                                            manager=manager)
-#B = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((600, 300), (100, 300)),
-#                                            text='a',
-#                                            manager=manager)
-
-#Db = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((75, 300), (50, 150)), text = 'T', manager=manager,object_id=ObjectID(class_id='@black_button'))
-#Eb = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((175, 300), (50, 150)), text = 'Y', manager=manager,object_id=ObjectID(class_id='@black_button'))
-#Fb = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((375, 300), (50, 150)), text = 'I', manager=manager,object_id=ObjectID(class_id='@black_button'))
-#Gb = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((475, 300), (50, 150)), text = 'O', manager=manager,object_id=ObjectID(class_id='@black_button'))
-#Ab = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((575, 300), (50, 150)), text = 'P', manager=manager,object_id=ObjectID(class_id='@black_button'))
-
 buttons = ['C3','D3','E3','F3','G3','A3','B3','C4','D4','E4','F4','G4']
 
 notes = ['C','D','E','F','G','A','B']
@@ -77,13 +49,6 @@ while octave <= 5:
 				key = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((init_flat_coord, 300), (25, 150)), text = f'{key}{octave}', manager=manager,object_id=ObjectID(class_id='@black_button'))
 
 	octave += 1
-
-
-
-
-
-
-
 
 clock = pygame.time.Clock()
 is_running = True
