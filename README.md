@@ -1,6 +1,25 @@
 ## COP1500 - Python Project Group 1
 # "pyMIDI"
 
+# Current Tasks
+### TJsnapdrag / asterSSH
+- Refactor code entirely
+- Convert to standardized layout
+- Add better octave system
+### Mr-Quadratic / asterSSH
+- GUI
+- Soundbanks
+- Synesthesia
+### asterSSH
+- Add transposition [This will take me 1.5 years]
+- Add LABS [This will take me 1.6 years]
+- Support GUI scaling [This will not happen]
+
+# Assignments:
+- asterSSH: Project management, soundbanks, midi input/output, merges, stretch goals, optimization, support
+- Mr-Quadratic: GUI, soundbanks
+- TJsnapdrag: Base input / audio output, demo code
+
 # Pygame - Mixer
 - Please look into mixer, as it will be the best library we can currently use to play audio correctly in sync with keyboard inputs. Remember that the naming scheme of the audio files are by octave.
 - Therefore, A1 is lower pitched than A2, and F3 is higher pitched than B3.
@@ -10,12 +29,6 @@
 # Keyboard Layout
 - https://virtualpiano.net/
 - Follow this keyboard layout if possible. Note that this is only five octaves, so we'll need to add either a hotkey to shift the octave up or down, or we can limit ourselves to the middle 5.
-
-
-# Assignments:
-- asterSSH: Project management, Soundbanks, MIDI input/output, Assistance, Stretch goals
-- Mr-Quadratic: Base audio output, 
-- TJsnapdrag: Base keyboard input,
 
 # Stretch Goals:
 - GUI

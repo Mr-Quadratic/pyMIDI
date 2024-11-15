@@ -5,6 +5,7 @@ from pygame import mixer
 
 pygame.mixer.init()
 pygame.init()
+pygame.mixer.set_num_channels(32)
 
 display = pygame.display.set_mode((640, 480))
 pygame.key.set_repeat(0)  # Disable key repeat for accurate simultaneous key presses
