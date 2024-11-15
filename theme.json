@@ -1,0 +1,24 @@
+{
+  "button":
+  {
+    "colours":
+    {
+      "normal_bg" : "White",
+      "normal_text":"Black"
+    }
+  },
+  "@black_button":
+  {
+    "colours":
+    {
+      "normal_bg": "Black",
+      "normal_text": "White",
+      "hovered_bg": "Grey"
+    },
+    "misc":
+    {
+
+    }
+  }
+}
+
