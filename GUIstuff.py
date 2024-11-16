@@ -1,29 +1,29 @@
 import pygame
 import pygame_gui
-from pygame.examples.sprite_texture import group
 from pygame_gui.core import ObjectID
 
 pygame.init()
 
+#Initialize GUI window
 pygame.display.set_caption('PYANO Dev GUI')
 window_surface = pygame.display.set_mode((1600, 800))
 background = pygame.Surface((1600, 600))
 background.fill(pygame.Color('#000000'))
 manager = pygame_gui.UIManager((1600, 1000), theme_path = 'theme.json')
 
-notes = ['C','D','E','F','G','A','B']
 
+
+#Lists for mapping notes to correct keys
+notes = ['C','D','E','F','G','A','B']
 flats_first = ['Db','Eb']
 flats_second = ['Gb','Ab','Bb']
-
 flat_position = [1,2]
-
 init_key_coord = 0
 init_flat_coord = 0
 octave = 1
 
 
-
+#Create piano keys as interactive GUI buttons
 while octave <= 5:
 	for key in notes:
 		key = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((init_key_coord, 650), (50, 150)),
@@ -31,9 +31,6 @@ while octave <= 5:
 		                                   manager=manager)
 		init_key_coord += 50
 	octave += 1
-
-
-
 
 black_keys = pygame.sprite.Group()
 octave = 1
@@ -61,23 +58,4 @@ while octave <= 5:
 				black_keys.add(key)
 	octave += 1
 
-clock = pygame.time.Clock()
-is_running = True
 
-while is_running:
-	time_delta = clock.tick(60) / 1000.0
-	for event in pygame.event.get():
-		if event.type == pygame.QUIT:
-			is_running = False
-
-		if event.type == pygame_gui.UI_BUTTON_PRESSED:
-			print(event.ui_element.text)
-
-		manager.process_events(event)
-
-	manager.update(time_delta)
-
-	window_surface.blit(background, (0, 0))
-	manager.draw_ui(window_surface)
-
-	pygame.display.update()

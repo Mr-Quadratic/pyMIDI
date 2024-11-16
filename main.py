@@ -1,66 +1,11 @@
-import pygame
 import sys
-import pygame_gui
-from pygame_gui.core import ObjectID
+from GUIstuff import *
 
 from pygame import mixer
 
 pygame.mixer.init()
 pygame.init()
 pygame.mixer.set_num_channels(32)
-
-
-pygame.display.set_caption('PYANO Dev GUI')
-window_surface = pygame.display.set_mode((1600, 800))
-background = pygame.Surface((1600, 600))
-background.fill(pygame.Color('#000000'))
-manager = pygame_gui.UIManager((1600, 1000), theme_path = 'theme.json')
-
-notesGUI = ['C','D','E','F','G','A','B']
-
-flats_first = ['Db','Eb']
-flats_second = ['Gb','Ab','Bb']
-
-flat_position = [1,2]
-
-init_key_coord = 0
-init_flat_coord = 0
-octaveGUI = 1
-
-while octaveGUI <= 5:
-	for key in notesGUI:
-		key = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((init_key_coord, 650), (50, 150)),
-		                                   text= f'{key}{octaveGUI}',
-		                                   manager=manager)
-		init_key_coord += 50
-	octaveGUI += 1
-
-octaveGUI = 1
-while octaveGUI <= 5:
-	for pos in flat_position:
-		if pos == 1:
-			for key in flats_first:
-				init_flat_coord = 0
-				init_flat_coord += (37.5 + 50 * 7 * (octaveGUI-1))
-				init_flat_coord += (50 * flats_first.index(key))
-				key = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((init_flat_coord, 650), (25, 100)),
-				                                   text = f'{key}{octaveGUI}',
-				                                   manager=manager,
-				                                   object_id=ObjectID(class_id='@black_button'))
-
-		if pos == 2:
-			for key in flats_second:
-				init_flat_coord = 0
-				init_flat_coord += (187.5 + 50 * 7 * (octaveGUI-1))
-				init_flat_coord += 50 * flats_second.index(key)
-				key = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((init_flat_coord, 650), (25, 100)),
-				                                   text = f'{key}{octaveGUI}',
-				                                   manager=manager,
-				                                   object_id=ObjectID(class_id='@black_button'))
-
-	octaveGUI += 1
-
-
 
 #display = pygame.display.set_mode((640, 480))
 pygame.key.set_repeat(0)  # Disable key repeat for accurate simultaneous key presses
