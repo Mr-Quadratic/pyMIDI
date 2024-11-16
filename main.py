@@ -1,8 +1,6 @@
 import sys
 from GUIstuff import *
 
-from pygame import mixer
-
 pygame.mixer.init()
 pygame.init()
 pygame.mixer.set_num_channels(32)
