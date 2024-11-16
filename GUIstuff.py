@@ -1,6 +1,5 @@
 import pygame
 import pygame_gui
-from pygame.examples.sprite_texture import group
 from pygame_gui.core import ObjectID
 
 pygame.init()
@@ -64,6 +63,7 @@ while octave <= 5:
 clock = pygame.time.Clock()
 is_running = True
 
+'''
 while is_running:
 	time_delta = clock.tick(60) / 1000.0
 	for event in pygame.event.get():
@@ -81,3 +81,4 @@ while is_running:
 	manager.draw_ui(window_surface)
 
 	pygame.display.update()
+'''
