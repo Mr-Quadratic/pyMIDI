@@ -65,8 +65,9 @@ for i, key in enumerate(key_mapping):
     except pygame.error as e:
         print(f"Failed to load {sound_file} - {e}")
 
-# Dictionary to track active sounds (keys that are pressed down)
+# Dictionaries to track active sounds (keys that are pressed down)
 active_sounds = {}
+active_button_sounds = {}
 shift_pressed = False
 
 def octaveHandler():
@@ -94,7 +95,7 @@ while is_running:
             pygame.quit()
             sys.exit()
 
-        if event.type == pygame_gui.UI_BUTTON_PRESSED:
+        if event.type == pygame_gui.UI_BUTTON_START_PRESS:
             sound = None
             try:
                 note = event.ui_element.text
@@ -108,6 +109,7 @@ while is_running:
                 for channel in channels:
                     if not channel.get_busy():
                         channel.play(sound)
+                        active_button_sounds[event.ui_element.text] = channel
                         break
 
         # Track Shift key state
@@ -165,6 +167,9 @@ while is_running:
                 channel = active_sounds.pop(event.key)
                 channel.fadeout(600)
 
+
+
+
         # Change octave using ',' and '.'
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_COMMA:  # Decrease octave
@@ -175,6 +180,10 @@ while is_running:
                 if current_octave < max_octave:
                     current_octave += 1
                     print(f"Octave increased to {current_octave}")
+        elif event.type == pygame_gui.UI_BUTTON_PRESSED:
+            if event.ui_element.text in active_button_sounds:
+                channel = active_button_sounds.pop(event.ui_element.text)
+                channel.fadeout(600)
 
 
 
