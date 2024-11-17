@@ -6,12 +6,20 @@ pygame.init()
 
 #Initialize GUI window
 pygame.display.set_caption('PYANO Dev GUI')
-window_surface = pygame.display.set_mode((1600, 800))
-background = pygame.Surface((1600, 600))
+GUI_display = pygame.display.set_mode((1600, 800))
+background = pygame.Surface((1600, 800))
 background.fill(pygame.Color('#000000'))
 manager = pygame_gui.UIManager((1600, 1000), theme_path = 'theme.json')
 
 
+class PressedSprite(pygame.sprite.Sprite):
+	def __init__(self,color,x,y):
+		super().__init__()
+		self.image = pygame.Surface((50,150))
+		self.image.fill(color)
+		self.rect = self.image.get_rect(center = (x,y))
+
+allSprites = pygame.sprite.Group()
 
 #Lists for mapping notes to keys
 notes = ['C','D','E','F','G','A','B']
@@ -22,14 +30,16 @@ init_key_coord = 0
 init_flat_coord = 0
 octave = 1
 
+notes_to_keys = {}
 
 ##Generate interactive piano key buttons
 #Generate white keys
-while octave <= 5:
+while octave <= 7:
 	for key in notes:
 		key = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((init_key_coord, 650), (50, 150)),
 		                                   text= f'{key}{octave}',
 		                                   manager=manager)
+		notes_to_keys[key.text] = init_key_coord
 		init_key_coord += 50
 	octave += 1
 

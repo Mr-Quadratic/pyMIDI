@@ -112,6 +112,7 @@ while is_running:
                         active_button_sounds[event.ui_element.text] = channel
                         break
 
+
         # Track Shift key state
         if event.type == pygame.KEYDOWN:
             if event.key in (pygame.K_LSHIFT, pygame.K_RSHIFT):
@@ -154,6 +155,11 @@ while is_running:
                             channel.play(sound)
                             active_sounds[event.key] = channel
                             break
+                #pressed = pygame.draw.rect(background, 'GREY', pygame.Rect(notes_to_keys[f'{note}{note_octave}'], 650, 50, 150))
+                pressed = PressedSprite('black',notes_to_keys[f'{note}{note_octave}']+25,725)
+                allSprites.add(pressed)
+
+
 
 
 
@@ -166,6 +172,9 @@ while is_running:
             if event.key in active_sounds:
                 channel = active_sounds.pop(event.key)
                 channel.fadeout(600)
+            for x in allSprites:
+                x.kill()
+
 
 
 
@@ -192,7 +201,8 @@ while is_running:
 
     manager.update(time_delta)
 
-    window_surface.blit(background, (0, 0))
-    manager.draw_ui(window_surface)
+    GUI_display.blit(background, (0, 0))
+    manager.draw_ui(GUI_display)
+    allSprites.draw(GUI_display)
 
     pygame.display.update()
