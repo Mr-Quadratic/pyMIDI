@@ -68,7 +68,13 @@ for i, key in enumerate(key_mapping):
 # Dictionaries to track active sounds (keys that are pressed down)
 active_sounds = {}
 active_button_sounds = {}
+
+#Dictionary to map key presses to GUI buttons
+keys_to_GUI = {}
+
+
 shift_pressed = False
+
 
 def octaveHandler():
     if event.unicode in octave1:
@@ -157,6 +163,7 @@ while is_running:
                             break
                 #pressed = pygame.draw.rect(background, 'GREY', pygame.Rect(notes_to_keys[f'{note}{note_octave}'], 650, 50, 150))
                 pressed = PressedSprite('black',notes_to_keys[f'{note}{note_octave}']+25,725)
+                keys_to_GUI[event.key] = pressed
                 allSprites.add(pressed)
 
 
@@ -173,7 +180,12 @@ while is_running:
                 channel = active_sounds.pop(event.key)
                 channel.fadeout(600)
             for x in allSprites:
-                x.kill()
+                keyButton = keys_to_GUI.get(event.key)
+                if x == keyButton:
+                    x.kill()
+
+
+
 
 
 
