@@ -15,11 +15,19 @@ manager = pygame_gui.UIManager((1600, 1000), theme_path = 'theme.json')
 class PressedSprite(pygame.sprite.Sprite):
 	def __init__(self,color,x,y):
 		super().__init__()
-		self.image = pygame.Surface((50,150))
+		self.image = pygame.Surface((45,145))
+		self.image.fill(color)
+		self.rect = self.image.get_rect(center = (x,y))
+
+class Tile(pygame.sprite.Sprite):
+	def __init__(self,color,x,y,w,l):
+		super().__init__()
+		self.image = pygame.Surface((w,l))
 		self.image.fill(color)
 		self.rect = self.image.get_rect(center = (x,y))
 
 allSprites = pygame.sprite.Group()
+allTiles = pygame.sprite.Group()
 
 #Lists for mapping notes to keys
 notes = ['C','D','E','F','G','A','B']
@@ -31,6 +39,8 @@ init_flat_coord = 0
 octave = 1
 
 notes_to_keys = {}
+
+l = 0
 
 ##Generate interactive piano key buttons
 #Generate white keys
@@ -70,3 +80,22 @@ while octave <= 5:
 				black_keys.add(key)
 	octave += 1
 
+vol_rect = pygame.Rect(100, 100, 200, 30)
+volume = pygame_gui.elements.UIHorizontalSlider(
+    relative_rect=vol_rect,
+    start_value=0,
+    value_range = (0,100),
+    manager=manager
+)
+fade_rect = pygame.Rect(100, 150, 200, 30)
+fade = pygame_gui.elements.UIHorizontalSlider(
+relative_rect=fade_rect,
+    start_value=0,
+    value_range = (0,10000),
+    manager=manager
+)
+
+label = pygame_gui.elements.UILabel(
+	relative_rect = vol_rect,
+
+)

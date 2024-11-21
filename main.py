@@ -90,12 +90,14 @@ def octaveHandler():
     elif event.unicode in octave6:
         return current_octave + 5
 
+
+
 # Main loop
 clock = pygame.time.Clock()
-is_running = True
-
-while is_running:
+y = 150
+while True:
     time_delta = clock.tick(60) / 1000.0
+    pygame.time.delay(10)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -150,6 +152,8 @@ while is_running:
                     sound_file = f'media/samples/UIO/{note}{note_octave}.aiff'
                     try:
                         sound = pygame.mixer.Sound(sound_file)
+                        sound.set_volume(volume.get_current_value() / 100)
+                        print(volume.get_current_value())
                         print(f"Playing natural note: {note}{note_octave}")
                     except pygame.error as e:
                         print(f"Failed to load {sound_file} - {e}")
@@ -161,14 +165,14 @@ while is_running:
                             channel.play(sound)
                             active_sounds[event.key] = channel
                             break
-                #pressed = pygame.draw.rect(background, 'GREY', pygame.Rect(notes_to_keys[f'{note}{note_octave}'], 650, 50, 150))
-                pressed = PressedSprite('black',notes_to_keys[f'{note}{note_octave}']+25,725)
+
+                try:
+                    pressed = PressedSprite('dimgrey',notes_to_keys[f'{note}{note_octave}']+25,725)
+                except KeyError:
+                    print("that aint a key man")
+
                 keys_to_GUI[event.key] = pressed
                 allSprites.add(pressed)
-
-
-
-
 
         # Handle Shift release
         elif event.type == pygame.KEYUP:
@@ -178,18 +182,13 @@ while is_running:
             # Stop the sound and fade out when the key is released
             if event.key in active_sounds:
                 channel = active_sounds.pop(event.key)
-                channel.fadeout(600)
+                channel.fadeout(fade.get_current_value())
             for x in allSprites:
                 keyButton = keys_to_GUI.get(event.key)
                 if x == keyButton:
                     x.kill()
-
-
-
-
-
-
-
+            for x in allTiles:
+                x.kill()
 
         # Change octave using ',' and '.'
         if event.type == pygame.KEYDOWN:
@@ -216,5 +215,6 @@ while is_running:
     GUI_display.blit(background, (0, 0))
     manager.draw_ui(GUI_display)
     allSprites.draw(GUI_display)
+    allTiles.draw(GUI_display)
 
     pygame.display.update()
