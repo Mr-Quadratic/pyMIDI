@@ -211,7 +211,8 @@ while True:
         manager.process_events(event)
 
     manager.update(time_delta)
-
+    labeldisp.set_text(str(volume.get_current_value()))
+    labeldisp2.set_text(str(fade.get_current_value()))
     GUI_display.blit(background, (0, 0))
     manager.draw_ui(GUI_display)
     allSprites.draw(GUI_display)

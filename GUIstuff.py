@@ -83,19 +83,34 @@ while octave <= 5:
 vol_rect = pygame.Rect(100, 100, 200, 30)
 volume = pygame_gui.elements.UIHorizontalSlider(
     relative_rect=vol_rect,
-    start_value=0,
+    start_value=50,
     value_range = (0,100),
     manager=manager
 )
 fade_rect = pygame.Rect(100, 150, 200, 30)
 fade = pygame_gui.elements.UIHorizontalSlider(
 relative_rect=fade_rect,
-    start_value=0,
-    value_range = (0,10000),
+    start_value=600,
+    value_range = (0,1500),
     manager=manager
 )
 
 label = pygame_gui.elements.UILabel(
 	relative_rect = vol_rect,
+	text = 'Volume'
+)
+label2 = pygame_gui.elements.UILabel(
+	relative_rect = fade_rect,
+	text = 'Release time (ms)'
+)
 
+display_rect = pygame.Rect(225,100,200,30)
+labeldisp = pygame_gui.elements.UILabel(
+	relative_rect = display_rect,
+	text = str(volume.get_current_value())
+)
+display_rect2 = pygame.Rect(225,150,200,30)
+labeldisp2 = pygame_gui.elements.UILabel(
+	relative_rect = display_rect2,
+	text = str(fade.get_current_value())
 )
