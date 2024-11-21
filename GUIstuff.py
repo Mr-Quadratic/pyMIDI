@@ -19,10 +19,10 @@ class PressedSprite(pygame.sprite.Sprite):
 		self.image.fill(color)
 		self.rect = self.image.get_rect(center = (x,y))
 
-class Tile(pygame.sprite.Sprite):
-	def __init__(self,color,x,y,w,l):
+class PressedFlatSprite(pygame.sprite.Sprite):
+	def __init__(self,color,x,y):
 		super().__init__()
-		self.image = pygame.Surface((w,l))
+		self.image = pygame.Surface((25,100))
 		self.image.fill(color)
 		self.rect = self.image.get_rect(center = (x,y))
 

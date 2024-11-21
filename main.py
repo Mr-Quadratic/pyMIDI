@@ -147,6 +147,13 @@ while True:
                             print(f"Failed to load {sound_file} - {e}")
                         except OSError as e:
                             print(f"Failed to load {sound_file} - {e}")
+                        try:
+                            pressed = PressedFlatSprite('dimgrey', notes_to_keys[f'{note}{note_octave}']+50, 700)
+                            keys_to_GUI[event.key] = pressed
+                            allSprites.add(pressed)
+                        except KeyError:
+                            print("that aint a key man")
+
                 else:
                     # No Shift, only play natural notes (e.g., C4, D4, E4, etc.)
                     sound_file = f'media/samples/UIO/{note}{note_octave}.aiff'
@@ -159,6 +166,12 @@ while True:
                         print(f"Failed to load {sound_file} - {e}")
                     except OSError as e:
                         print(f"Failed to load {sound_file} - {e}")
+                    try:
+                        pressed = PressedSprite('dimgrey', notes_to_keys[f'{note}{note_octave}'] + 25, 725)
+                        keys_to_GUI[event.key] = pressed
+                        allSprites.add(pressed)
+                    except KeyError:
+                        print("that aint a key man")
                 if sound:
                     for channel in channels:
                         if not channel.get_busy():
@@ -166,13 +179,7 @@ while True:
                             active_sounds[event.key] = channel
                             break
 
-                try:
-                    pressed = PressedSprite('dimgrey',notes_to_keys[f'{note}{note_octave}']+25,725)
-                except KeyError:
-                    print("that aint a key man")
 
-                keys_to_GUI[event.key] = pressed
-                allSprites.add(pressed)
 
         # Handle Shift release
         elif event.type == pygame.KEYUP:
@@ -183,12 +190,13 @@ while True:
             if event.key in active_sounds:
                 channel = active_sounds.pop(event.key)
                 channel.fadeout(fade.get_current_value())
+
             for x in allSprites:
                 keyButton = keys_to_GUI.get(event.key)
                 if x == keyButton:
                     x.kill()
-            for x in allTiles:
-                x.kill()
+
+
 
         # Change octave using ',' and '.'
         if event.type == pygame.KEYDOWN:
