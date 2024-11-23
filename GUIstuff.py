@@ -11,7 +11,7 @@ background = pygame.Surface((1600, 800))
 background.fill(pygame.Color('#000000'))
 manager = pygame_gui.UIManager((1600, 1000), theme_path = 'theme.json')
 
-
+#Classes for GUI shadow mapping and synesthesia visualization
 class PressedSprite(pygame.sprite.Sprite):
 	def __init__(self,color,x,y):
 		super().__init__()
@@ -23,6 +23,13 @@ class PressedFlatSprite(pygame.sprite.Sprite):
 	def __init__(self,color,x,y):
 		super().__init__()
 		self.image = pygame.Surface((25,100))
+		self.image.fill(color)
+		self.rect = self.image.get_rect(center = (x,y))
+
+class Tile(pygame.sprite.Sprite):
+	def __init__(self,color,x,y,w,l):
+		super().__init__()
+		self.image = pygame.Surface((w,l))
 		self.image.fill(color)
 		self.rect = self.image.get_rect(center = (x,y))
 
@@ -40,16 +47,18 @@ octave = 1
 
 notes_to_keys = {}
 
-l = 0
+
+
 
 ##Generate interactive piano key buttons
-#Generate white keys
+#Generate white keys and preload synesthesia tiles
 while octave <= 7:
 	for key in notes:
 		key = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((init_key_coord, 650), (50, 150)),
 		                                   text= f'{key}{octave}',
 		                                   manager=manager)
 		notes_to_keys[key.text] = init_key_coord
+
 		init_key_coord += 50
 	octave += 1
 

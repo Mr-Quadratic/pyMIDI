@@ -1,9 +1,7 @@
 import sys
-from GUIstuff import *
 import json
 import os
-import pygame
-import pygame_gui
+from GUIstuff import *
 
 pygame.mixer.init()
 pygame.init()
@@ -117,6 +115,7 @@ active_button_sounds = {}
 
 #Dictionary to map key presses to GUI buttons
 keys_to_GUI = {}
+tiles_to_GUI = {}
 
 
 shift_pressed = False
@@ -137,13 +136,20 @@ def octaveHandler():
         return current_octave + 5
 
 
-
+l = 0
+square_l = 0
+isPressed = False
 # Main loop
 clock = pygame.time.Clock()
-y = 150
+
 while True:
     time_delta = clock.tick(60) / 1000.0
     pygame.time.delay(10)
+    GUI_display.blit(background, (0, 0))
+    square = pygame.draw.rect(GUI_display, 'blue', (100, 100, 100, square_l))
+    if isPressed:
+        square_l += 50
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             # Save user settings on exit
@@ -177,6 +183,11 @@ while True:
 
         # Track Shift key state
         if event.type == pygame.KEYDOWN:
+
+
+
+            isPressed = True
+
             if event.key in (pygame.K_LSHIFT, pygame.K_RSHIFT):
                 shift_pressed = True
 
@@ -206,7 +217,7 @@ while True:
                             keys_to_GUI[event.key] = pressed
                             allSprites.add(pressed)
                         except KeyError:
-                            print("that aint a key man")
+                            print("that ain't a key man")
 
                 else:
                     # No Shift, only play natural notes (e.g., C4, D4, E4, etc.)
@@ -226,6 +237,9 @@ while True:
                         allSprites.add(pressed)
                     except KeyError:
                         print("that aint a key man")
+
+
+
                 if sound:
                     for channel in channels:
                         if not channel.get_busy():
@@ -237,6 +251,7 @@ while True:
 
         # Handle Shift release
         elif event.type == pygame.KEYUP:
+            isPressed = False
             if event.key in (pygame.K_LSHIFT, pygame.K_RSHIFT):
                 shift_pressed = False
 
@@ -249,8 +264,10 @@ while True:
                 keyButton = keys_to_GUI.get(event.key)
                 if x == keyButton:
                     x.kill()
-
-
+            for x in allTiles:
+                keyButton = tiles_to_GUI.get(event.key)
+                if x == keyButton:
+                    x.kill()
 
         # Change octave using ',' and '.'
         if event.type == pygame.KEYDOWN:
@@ -273,14 +290,14 @@ while True:
             elif event.ui_element == fade:
                 current_fade_time = fade.get_current_value()
 
+
         manager.process_events(event)
 
     manager.update(time_delta)
     labeldisp.set_text(str(volume.get_current_value()))
     labeldisp2.set_text(str(fade.get_current_value()))
-    GUI_display.blit(background, (0, 0))
+
     manager.draw_ui(GUI_display)
     allSprites.draw(GUI_display)
-    allTiles.draw(GUI_display)
 
     pygame.display.update()
