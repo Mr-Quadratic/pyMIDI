@@ -47,9 +47,12 @@ octave = 1
 
 notes_to_keys = {}
 
+tiles = []
 
+tilePositions = {}
 
-
+l = 150
+coord_x = 150
 ##Generate interactive piano key buttons
 #Generate white keys and preload synesthesia tiles
 while octave <= 7:
@@ -58,6 +61,13 @@ while octave <= 7:
 		                                   text= f'{key}{octave}',
 		                                   manager=manager)
 		notes_to_keys[key.text] = init_key_coord
+		tileRect = pygame.Rect(init_key_coord, 650, 25, 0)
+		#tile = pygame_gui.elements.UILabel(relative_rect=tileRect,
+		#								   text = '',
+		#								   manager=manager,
+		#								   object_id=ObjectID(class_id='@tile_label'))
+		tiles.append(tileRect)
+		tilePositions[init_key_coord] = tileRect
 
 		init_key_coord += 50
 	octave += 1

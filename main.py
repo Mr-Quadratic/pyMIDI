@@ -136,19 +136,31 @@ def octaveHandler():
         return current_octave + 5
 
 
-l = 0
-square_l = 0
+
 isPressed = False
+unPressed = False
 # Main loop
 clock = pygame.time.Clock()
+w = 0
+coord_x = 100
 
 while True:
     time_delta = clock.tick(60) / 1000.0
     pygame.time.delay(10)
     GUI_display.blit(background, (0, 0))
-    square = pygame.draw.rect(GUI_display, 'blue', (100, 100, 100, square_l))
+    #square = pygame.draw.rect(GUI_display, 'blue', (100, 100, 100, square_l))
+
+
+    for x in tiles:
+        tileRect = pygame.draw.rect(GUI_display, 'orange',x)
     if isPressed:
-        square_l += 50
+        tilePositions[0].height += 5
+        tilePositions[0].y += -5
+    if unPressed:
+        tilePositions[0].y += -5
+
+
+
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -252,6 +264,7 @@ while True:
         # Handle Shift release
         elif event.type == pygame.KEYUP:
             isPressed = False
+            unPressed = True
             if event.key in (pygame.K_LSHIFT, pygame.K_RSHIFT):
                 shift_pressed = False
 
