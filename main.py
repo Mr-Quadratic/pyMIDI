@@ -151,13 +151,7 @@ while True:
     #square = pygame.draw.rect(GUI_display, 'blue', (100, 100, 100, square_l))
 
 
-    for x in tiles:
-        tileRect = pygame.draw.rect(GUI_display, 'orange',x)
-    if isPressed:
-        tilePositions[0].height += 5
-        tilePositions[0].y += -5
-    if unPressed:
-        tilePositions[0].y += -5
+
 
 
 
@@ -197,8 +191,9 @@ while True:
         if event.type == pygame.KEYDOWN:
 
 
-
+            global keyPressed
             isPressed = True
+            keyPressed = event.key
 
             if event.key in (pygame.K_LSHIFT, pygame.K_RSHIFT):
                 shift_pressed = True
@@ -228,6 +223,7 @@ while True:
                             pressed = PressedFlatSprite('dimgrey', notes_to_keys[f'{note}{note_octave}']+50, 700)
                             keys_to_GUI[event.key] = pressed
                             allSprites.add(pressed)
+
                         except KeyError:
                             print("that ain't a key man")
 
@@ -247,6 +243,7 @@ while True:
                         pressed = PressedSprite('dimgrey', notes_to_keys[f'{note}{note_octave}'] + 25, 725)
                         keys_to_GUI[event.key] = pressed
                         allSprites.add(pressed)
+                        tiles_to_GUI[event.key] = notes_to_keys[f'{note}{note_octave}']
                     except KeyError:
                         print("that aint a key man")
 
@@ -277,10 +274,7 @@ while True:
                 keyButton = keys_to_GUI.get(event.key)
                 if x == keyButton:
                     x.kill()
-            for x in allTiles:
-                keyButton = tiles_to_GUI.get(event.key)
-                if x == keyButton:
-                    x.kill()
+
 
         # Change octave using ',' and '.'
         if event.type == pygame.KEYDOWN:
@@ -305,6 +299,16 @@ while True:
 
 
         manager.process_events(event)
+    for x in tiles:
+        tileRect = pygame.draw.rect(GUI_display, 'orange',x)
+    if isPressed:
+        try:
+            tilePositions[tiles_to_GUI[keyPressed]].height += 5
+            tilePositions[tiles_to_GUI[keyPressed]].y += -5
+        except KeyError:
+            print("asl;dkfj")
+    if unPressed:
+        tilePositions[tiles_to_GUI[keyPressed]].y += -5
 
     manager.update(time_delta)
     labeldisp.set_text(str(volume.get_current_value()))
