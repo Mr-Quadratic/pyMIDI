@@ -1,13 +1,52 @@
-import pygame
 import sys
-
-from pygame import mixer
+from GUIstuff import *
+import json
+import os
+import pygame
+import pygame_gui
 
 pygame.mixer.init()
 pygame.init()
 pygame.mixer.set_num_channels(32)
 
-display = pygame.display.set_mode((640, 480))
+# Settings file for user preferences
+settings_file = "user_settings.json"
+default_settings = {
+    "volume": 50,
+    "fade_time": 600,
+    "starting_octave": 2
+}
+
+def load_settings():
+    if os.path.exists(settings_file):
+        try:
+            with open(settings_file, 'r') as file:
+                return json.load(file)
+        except json.JSONDecodeError:
+            print("Settings file corrupted. Using default.")
+    return default_settings
+
+def save_settings(settings):
+    try:
+        with open(settings_file, 'w') as file:
+            json.dump(settings, file, indent=4)
+    except Exception as e:
+        print(f"Error saving settings: {e}")
+
+# Load user settings
+settings = load_settings()
+current_volume = settings["volume"]
+current_fade_time = settings["fade_time"]
+current_octave = settings["starting_octave"]
+
+print(f"Loaded settings: Volume = {current_volume}, Fade Time = {current_fade_time}, Starting Octave = {current_octave}")
+
+# Pre-apply settings
+volume.set_current_value(current_volume)
+fade.set_current_value(current_fade_time)
+
+
+#display = pygame.display.set_mode((640, 480))
 pygame.key.set_repeat(0)  # Disable key repeat for accurate simultaneous key presses
 
 # Correct natural notes
@@ -53,6 +92,11 @@ pygame.mixer.set_num_channels(num_channels)
 channels = [pygame.mixer.Channel(i) for i in range(num_channels)]
 current_channel = 0
 
+# Initialize sounds and GUI mappings
+active_sounds = {}
+active_button_sounds = {}
+keys_to_GUI = {}
+
 # Preload sounds for all natural notes across octaves
 for i, key in enumerate(key_mapping):
     note_index = i % 7  # Only use natural notes
@@ -67,9 +111,16 @@ for i, key in enumerate(key_mapping):
     except pygame.error as e:
         print(f"Failed to load {sound_file} - {e}")
 
-# Dictionary to track active sounds (keys that are pressed down)
+# Dictionaries to track active sounds (keys that are pressed down)
 active_sounds = {}
+active_button_sounds = {}
+
+#Dictionary to map key presses to GUI buttons
+keys_to_GUI = {}
+
+
 shift_pressed = False
+
 
 def octaveHandler():
     if event.unicode in octave1:
@@ -85,12 +136,44 @@ def octaveHandler():
     elif event.unicode in octave6:
         return current_octave + 5
 
+
+
 # Main loop
+clock = pygame.time.Clock()
+y = 150
 while True:
+    time_delta = clock.tick(60) / 1000.0
+    pygame.time.delay(10)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            # Save user settings on exit
+            current_settings = {
+                "volume": current_volume,
+                "fade_time": current_fade_time,
+                "starting_octave": current_octave
+            }
+            save_settings(current_settings)
+            print(f"Saved settings: {current_settings}")
             pygame.quit()
             sys.exit()
+
+        if event.type == pygame_gui.UI_BUTTON_START_PRESS:
+            sound = None
+            try:
+                note = event.ui_element.text
+                sound = pygame.mixer.Sound(f'media/samples/UIO/{note}.aiff')
+                print(f"Playing natural note: {note}")
+            except pygame.error as e:
+                print(f"Failed to load {note} - {e}")
+            except OSError as e:
+                print(f"Failed to load {note} - {e}")
+            if sound:
+                for channel in channels:
+                    if not channel.get_busy():
+                        channel.play(sound)
+                        active_button_sounds[event.ui_element.text] = channel
+                        break
+
 
         # Track Shift key state
         if event.type == pygame.KEYDOWN:
@@ -118,25 +201,39 @@ while True:
                             print(f"Failed to load {sound_file} - {e}")
                         except OSError as e:
                             print(f"Failed to load {sound_file} - {e}")
+                        try:
+                            pressed = PressedFlatSprite('dimgrey', notes_to_keys[f'{note}{note_octave}']+50, 700)
+                            keys_to_GUI[event.key] = pressed
+                            allSprites.add(pressed)
+                        except KeyError:
+                            print("that aint a key man")
+
                 else:
                     # No Shift, only play natural notes (e.g., C4, D4, E4, etc.)
                     sound_file = f'media/samples/UIO/{note}{note_octave}.aiff'
                     try:
                         sound = pygame.mixer.Sound(sound_file)
+                        sound.set_volume(volume.get_current_value() / 100)
+                        print(volume.get_current_value())
                         print(f"Playing natural note: {note}{note_octave}")
                     except pygame.error as e:
                         print(f"Failed to load {sound_file} - {e}")
                     except OSError as e:
                         print(f"Failed to load {sound_file} - {e}")
-
-                # If a sound was successfully loaded, play it
+                    try:
+                        pressed = PressedSprite('dimgrey', notes_to_keys[f'{note}{note_octave}'] + 25, 725)
+                        keys_to_GUI[event.key] = pressed
+                        allSprites.add(pressed)
+                    except KeyError:
+                        print("that aint a key man")
                 if sound:
-                    # Find an available channel to play the sound
                     for channel in channels:
                         if not channel.get_busy():
                             channel.play(sound)
                             active_sounds[event.key] = channel
                             break
+
+
 
         # Handle Shift release
         elif event.type == pygame.KEYUP:
@@ -146,7 +243,14 @@ while True:
             # Stop the sound and fade out when the key is released
             if event.key in active_sounds:
                 channel = active_sounds.pop(event.key)
-                channel.fadeout(600)
+                channel.fadeout(fade.get_current_value())
+
+            for x in allSprites:
+                keyButton = keys_to_GUI.get(event.key)
+                if x == keyButton:
+                    x.kill()
+
+
 
         # Change octave using ',' and '.'
         if event.type == pygame.KEYDOWN:
@@ -158,3 +262,25 @@ while True:
                 if current_octave < max_octave:
                     current_octave += 1
                     print(f"Octave increased to {current_octave}")
+        elif event.type == pygame_gui.UI_BUTTON_PRESSED:
+            if event.ui_element.text in active_button_sounds:
+                channel = active_button_sounds.pop(event.ui_element.text)
+                channel.fadeout(600)
+
+        if event.type == pygame_gui.UI_HORIZONTAL_SLIDER_MOVED:
+            if event.ui_element == volume:
+                current_volume = volume.get_current_value()
+            elif event.ui_element == fade:
+                current_fade_time = fade.get_current_value()
+
+        manager.process_events(event)
+
+    manager.update(time_delta)
+    labeldisp.set_text(str(volume.get_current_value()))
+    labeldisp2.set_text(str(fade.get_current_value()))
+    GUI_display.blit(background, (0, 0))
+    manager.draw_ui(GUI_display)
+    allSprites.draw(GUI_display)
+    allTiles.draw(GUI_display)
+
+    pygame.display.update()
