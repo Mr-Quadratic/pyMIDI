@@ -137,18 +137,16 @@ def octaveHandler():
 
 
 
-isPressed = False
-unPressed = False
-# Main loop
-clock = pygame.time.Clock()
-w = 0
-coord_x = 100
 
+# Main loop
+
+clock = pygame.time.Clock()
+keyDown = False
 while True:
     time_delta = clock.tick(60) / 1000.0
     pygame.time.delay(10)
     GUI_display.blit(background, (0, 0))
-    #square = pygame.draw.rect(GUI_display, 'blue', (100, 100, 100, square_l))
+
 
 
 
@@ -189,11 +187,10 @@ while True:
 
         # Track Shift key state
         if event.type == pygame.KEYDOWN:
-
-
-            global keyPressed
-            isPressed = True
-            keyPressed = event.key
+            keyDown = True
+            #global keyPressed
+            #isPressed = True
+            #keyPressed = event.key
 
             if event.key in (pygame.K_LSHIFT, pygame.K_RSHIFT):
                 shift_pressed = True
@@ -246,6 +243,10 @@ while True:
                         tiles_to_GUI[event.key] = notes_to_keys[f'{note}{note_octave}']
                     except KeyError:
                         print("that aint a key man")
+                    tile = Tile('red',notes_to_keys[f'{note}{note_octave}'] + 25, 575,40,140)
+                    allTiles.add(tile)
+                    tiles.append(tile)
+
 
 
 
@@ -260,8 +261,9 @@ while True:
 
         # Handle Shift release
         elif event.type == pygame.KEYUP:
-            isPressed = False
-            unPressed = True
+            #isPressed = False
+            #unPressed = True
+            keyDown = False
             if event.key in (pygame.K_LSHIFT, pygame.K_RSHIFT):
                 shift_pressed = False
 
@@ -289,7 +291,7 @@ while True:
         elif event.type == pygame_gui.UI_BUTTON_PRESSED:
             if event.ui_element.text in active_button_sounds:
                 channel = active_button_sounds.pop(event.ui_element.text)
-                channel.fadeout(600)
+                channel.fadeout(fade.get_current_value())
 
         if event.type == pygame_gui.UI_HORIZONTAL_SLIDER_MOVED:
             if event.ui_element == volume:
@@ -300,15 +302,12 @@ while True:
 
         manager.process_events(event)
     for x in tiles:
-        tileRect = pygame.draw.rect(GUI_display, 'orange',x)
-    if isPressed:
-        try:
-            tilePositions[tiles_to_GUI[keyPressed]].height += 5
-            tilePositions[tiles_to_GUI[keyPressed]].y += -5
-        except KeyError:
-            print("asl;dkfj")
-    if unPressed:
-        tilePositions[tiles_to_GUI[keyPressed]].y += -5
+        x.update()
+
+
+
+
+
 
     manager.update(time_delta)
     labeldisp.set_text(str(volume.get_current_value()))
@@ -316,5 +315,6 @@ while True:
 
     manager.draw_ui(GUI_display)
     allSprites.draw(GUI_display)
+    allTiles.draw(GUI_display)
 
     pygame.display.update()

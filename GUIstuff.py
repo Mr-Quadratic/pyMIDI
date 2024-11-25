@@ -32,6 +32,13 @@ class Tile(pygame.sprite.Sprite):
 		self.image = pygame.Surface((w,l))
 		self.image.fill(color)
 		self.rect = self.image.get_rect(center = (x,y))
+		y_coord = self.rect.y
+	def update(self):
+		self.rect.y += -5
+
+
+
+
 
 allSprites = pygame.sprite.Group()
 allTiles = pygame.sprite.Group()
@@ -61,13 +68,13 @@ while octave <= 7:
 		                                   text= f'{key}{octave}',
 		                                   manager=manager)
 		notes_to_keys[key.text] = init_key_coord
-		tileRect = pygame.Rect(init_key_coord, 650, 25, 0)
+		#tileRect = pygame.Rect(init_key_coord, 650, 25, 0)
 		#tile = pygame_gui.elements.UILabel(relative_rect=tileRect,
 		#								   text = '',
 		#								   manager=manager,
 		#								   object_id=ObjectID(class_id='@tile_label'))
-		tiles.append(tileRect)
-		tilePositions[init_key_coord] = tileRect
+		#tiles.append(tileRect)
+		#tilePositions[init_key_coord] = tileRect
 
 		init_key_coord += 50
 	octave += 1
