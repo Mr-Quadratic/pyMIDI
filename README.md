@@ -1,40 +1,25 @@
 ## COP1500 - Python Project Group 1
-# "pyMIDI"
+# "PyANO"
+Pyano is a program that takes a keypress from a typical computer keyboard and outputs the corresponding audio from a sound file.
+It features a UI that displays a typical piano keyboard layout. Each key is labeled with its corresponding note.​
+Pyano is a Python recreation of virtualpiano.net, a popular online piano, using the pygame suite of libraries.
+Pyano features adjustable volume and release time for played keys, and a greater range of playable octaves than virtualpiano.
+Volume and release time settings are saved when the application closes. Reopening the program will return the last saved settings.
+Additionally, Pyano can be played offline since it is stored locally as a collection of Python scripts, whereas virtualpiano requires an internet connection.
 
-# Current Tasks
-### TJsnapdrag / asterSSH
-- Refactor code entirely
-- Convert to standardized layout
-- Add better octave system
-### Mr-Quadratic / asterSSH
-- GUI
-- Soundbanks
-- Synesthesia
-### asterSSH
-- Add transposition [This will take me 1.5 years]
-- Add LABS [This will take me 1.6 years]
-- Support GUI scaling [This will not happen]
+Issues:​
+- GUI is not scalable. To fit all keys, octaves 1 and 7 are hidden on the GUI. They are still accessible through keyboard input.​
+- There were several features that we wanted to add, such as different sound banks, MIDI file support and recording, and a note visualizer (which was almost finished) but that we ran out of time to implement​
+- Additionally, the GUI does not look as nice as it could​
+- These stretch goals, plus better GUI theming and layout, would be added in future versions of Pyano
 
-# Assignments:
-- asterSSH: Project management, soundbanks, midi input/output, merges, stretch goals, optimization, support
-- Mr-Quadratic: GUI, soundbanks
-- TJsnapdrag: Base input / audio output, demo code
+Workload Distributions:​
 
-# Pygame - Mixer
-- Please look into mixer, as it will be the best library we can currently use to play audio correctly in sync with keyboard inputs. Remember that the naming scheme of the audio files are by octave.
-- Therefore, A1 is lower pitched than A2, and F3 is higher pitched than B3.
-- Example: Ab1 A1 Bb1 B1 C1 Db1 D1 Eb1 E1 F1 Gb1 G1 Ab2 A2 etc...
-- There is an octave 0 (starts at A0) and goes up to octave 8 (ends at G8).
+- TJsnapdrag: keyboard input, audio output, demo 1 pseudocode, setting save functions​
+- Mr-Quadratic: GUI setup, key creation, audio output for key press, volume and release time sliders​
+- asterSSH: project management, task assignment, optimization, octave handling, bug fixing, sound banks​
 
-# Keyboard Layout
-- https://virtualpiano.net/
-- Follow this keyboard layout if possible. Note that this is only five octaves, so we'll need to add either a hotkey to shift the octave up or down, or we can limit ourselves to the middle 5.
+References:​
 
-# Stretch Goals:
-- GUI
-- Different soundbanks
-- LABS soft piano bank [this will take like three days so it's an individual goal]
-- MIDI input/output
-- MIDI recording
-- MIDI playing
-- Synesthesia visualizer thing because it's cool
+- Pygame GUI documentation: https://pygame-gui.readthedocs.io/en/latest/quick_start.html​
+- Pygame Sprite documentation: https://www.pygame.org/docs/ref/sprite.html​
