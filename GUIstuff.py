@@ -6,10 +6,10 @@ pygame.init()
 
 #Initialize GUI window
 pygame.display.set_caption('PYANO Dev GUI')
-GUI_display = pygame.display.set_mode((1600, 800))
-background = pygame.Surface((1600, 800))
+GUI_display = pygame.display.set_mode((2450, 800))
+background = pygame.Surface((2450, 800))
 background.fill(pygame.Color('#000000'))
-manager = pygame_gui.UIManager((1600, 1000), theme_path = 'theme.json')
+manager = pygame_gui.UIManager((2450, 1000), theme_path = 'theme.json')
 
 
 class PressedSprite(pygame.sprite.Sprite):
@@ -56,7 +56,7 @@ while octave <= 7:
 black_keys = pygame.sprite.Group()
 octave = 1
 #Generate black keys (annoying because of the sort-of inconsistent spacing)
-while octave <= 5:
+while octave <= 7:
 	for pos in flat_position:
 		if pos == 1:
 			for key in flats_first:
