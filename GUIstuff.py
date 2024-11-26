@@ -6,10 +6,10 @@ pygame.init()
 
 #Initialize GUI window
 pygame.display.set_caption('PYANO Dev GUI')
-GUI_display = pygame.display.set_mode((2450, 800))
-background = pygame.Surface((2450, 800))
+GUI_display = pygame.display.set_mode((1750, 800))
+background = pygame.Surface((1750, 800))
 background.fill(pygame.Color('#000000'))
-manager = pygame_gui.UIManager((2450, 1000), theme_path = 'theme.json')
+manager = pygame_gui.UIManager((1750, 1000), theme_path = 'theme.json')
 
 
 class PressedSprite(pygame.sprite.Sprite):
@@ -36,7 +36,7 @@ flats_second = ['Gb','Ab','Bb']
 flat_position = [1,2]
 init_key_coord = 0
 init_flat_coord = 0
-octave = 1
+octave = 2
 
 notes_to_keys = {}
 
@@ -44,7 +44,7 @@ l = 0
 
 ##Generate interactive piano key buttons
 #Generate white keys
-while octave <= 7:
+while octave <= 6:
 	for key in notes:
 		key = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((init_key_coord, 650), (50, 150)),
 		                                   text= f'{key}{octave}',
@@ -54,14 +54,14 @@ while octave <= 7:
 	octave += 1
 
 black_keys = pygame.sprite.Group()
-octave = 1
+octave = 2
 #Generate black keys (annoying because of the sort-of inconsistent spacing)
-while octave <= 7:
+while octave <= 6:
 	for pos in flat_position:
 		if pos == 1:
 			for key in flats_first:
 				init_flat_coord = 0
-				init_flat_coord += (37.5 + 50 * 7 * (octave-1))
+				init_flat_coord += (37.5 + 50 * 7 * (octave-2))
 				init_flat_coord += (50 * flats_first.index(key))
 				key = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((init_flat_coord, 650), (25, 100)),
 				                                   text = f'{key}{octave}',
@@ -71,7 +71,7 @@ while octave <= 7:
 		if pos == 2:
 			for key in flats_second:
 				init_flat_coord = 0
-				init_flat_coord += (187.5 + 50 * 7 * (octave-1))
+				init_flat_coord += (187.5 + 50 * 7 * (octave-2))
 				init_flat_coord += 50 * flats_second.index(key)
 				key = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((init_flat_coord, 650), (25, 100)),
 				                                   text = f'{key}{octave}',
